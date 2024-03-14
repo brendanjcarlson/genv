@@ -21,17 +21,8 @@ func main() {
 	case commands.HELP:
 		log.Println("help")
 	case commands.GENERATE:
-		generate(args)
+		generator.Generate(args)
 	default:
 		log.Fatalf("Unknown command: %s", args.Command)
-	}
-}
-
-func generate(args *parser.Args) {
-	kvs := parser.ParseFiles(args)
-
-	err := generator.Generate(args, kvs)
-	if err != nil {
-		log.Fatalf("Error generating files: %s", err)
 	}
 }

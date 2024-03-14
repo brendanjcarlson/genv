@@ -10,57 +10,6 @@ import (
 	"errors"
 )
 
-var aUint16 uint16
-
-func AUint16() uint16 {
-    if aUint16 == 0 {
-        x, exists := os.LookupEnv("A_UINT_16")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: A_UINT_16")
-        }
-        y, err := strconv.ParseUint(x, 10, 16)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to uint16: A_UINT_16")
-        }
-        aUint16 = uint16(y)
-    }
-    return aUint16
-}
-
-var anInt32 int32
-
-func AnInt32() int32 {
-    if anInt32 == 0 {
-        x, exists := os.LookupEnv("AN_INT_32")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: AN_INT_32")
-        }
-        y, err := strconv.ParseInt(x, 10, 32)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to int32: AN_INT_32")
-        }
-        anInt32 = int32(y)
-    }
-    return anInt32
-}
-
-var anInt16 int16
-
-func AnInt16() int16 {
-    if anInt16 == 0 {
-        x, exists := os.LookupEnv("AN_INT_16")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: AN_INT_16")
-        }
-        y, err := strconv.ParseInt(x, 10, 16)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to int16: AN_INT_16")
-        }
-        anInt16 = int16(y)
-    }
-    return anInt16
-}
-
 var aUint32 uint32
 
 func AUint32() uint32 {
@@ -78,162 +27,17 @@ func AUint32() uint32 {
     return aUint32
 }
 
-var aUint64 uint64
+var aRune rune
 
-func AUint64() uint64 {
-    if aUint64 == 0 {
-        x, exists := os.LookupEnv("A_UINT_64")
+func ARune() rune {
+    if aRune == 0 {
+        x, exists := os.LookupEnv("A_RUNE")
         if !exists {
-            log.Fatalf("Failed to find environment variable: A_UINT_64")
+            log.Fatalf("Failed to find environment variable: A_RUNE")
         }
-        y, err := strconv.ParseUint(x, 10, 64)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to uint64: A_UINT_64")
-        }
-        aUint64 = uint64(y)
+        aRune = rune([]byte(x)[0])
     }
-    return aUint64
-}
-
-var aUint uint
-
-func AUint() uint {
-    if aUint == 0 {
-        x, exists := os.LookupEnv("A_UINT")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: A_UINT")
-        }
-        y, err := strconv.ParseUint(x, 10, 64)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to uint: A_UINT")
-        }
-        aUint = uint(y)
-    }
-    return aUint
-}
-
-var aByte byte
-
-func AByte() byte {
-    if aByte == 0 {
-        x, exists := os.LookupEnv("A_BYTE")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: A_BYTE")
-        }
-        aByte = []byte(x)[0]
-    }
-    return aByte
-}
-
-var aByteSlice []byte
-
-func AByteSlice() []byte {
-    if aByteSlice == nil {
-        x, exists := os.LookupEnv("A_BYTE_SLICE")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: A_BYTE_SLICE")
-        }
-        aByteSlice = []byte(x)
-    }
-    return aByteSlice
-}
-
-var aFloat64 float64
-
-func AFloat64() float64 {
-    if aFloat64 == 0 {
-        x, exists := os.LookupEnv("A_FLOAT_64")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: A_FLOAT_64")
-        }
-        y, err := strconv.ParseFloat(x, 64)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to float64: A_FLOAT_64")
-        }
-        aFloat64 = float64(y)
-    }
-    return aFloat64
-}
-
-var anInt8 int8
-
-func AnInt8() int8 {
-    if anInt8 == 0 {
-        x, exists := os.LookupEnv("AN_INT_8")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: AN_INT_8")
-        }
-        y, err := strconv.ParseInt(x, 10, 8)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to int8: AN_INT_8")
-        }
-        anInt8 = int8(y)
-    }
-    return anInt8
-}
-
-var aBool bool
-
-func ABool() bool {
-    if aBool == false {
-        x, exists := os.LookupEnv("A_BOOL")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: A_BOOL")
-        }
-        y, err := strconv.ParseBool(x)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to bool: A_BOOL")
-        }
-        aBool = y
-    }
-    return aBool
-}
-
-var anError error
-
-func AnError() error {
-    if anError == nil {
-        x, exists := os.LookupEnv("AN_ERROR")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: AN_ERROR")
-        }
-        anError = errors.New(x)
-    }
-    return anError
-}
-
-var aComplex64 complex64
-
-func AComplex64() complex64 {
-    if aComplex64 == 0 {
-        x, exists := os.LookupEnv("A_COMPLEX_64")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: A_COMPLEX_64")
-        }
-        y, err := strconv.ParseComplex(x, 64)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to complex64: A_COMPLEX_64")
-        }
-        aComplex64 = complex64(y)
-    }
-    return aComplex64
-}
-
-var anInt int
-
-func AnInt() int {
-    if anInt == 0 {
-        x, exists := os.LookupEnv("AN_INT")
-        if !exists {
-            log.Fatalf("Failed to find environment variable: AN_INT")
-        }
-        y, err := strconv.Atoi(x)
-        if err != nil {
-            log.Fatalf("Failed to convert environment variable to int: AN_INT")
-        }
-        anInt = y
-    }
-    return anInt
+    return aRune
 }
 
 var aFloat32 float32
@@ -270,6 +74,70 @@ func AComplex128() complex128 {
     return aComplex128
 }
 
+var aBool bool
+
+func ABool() bool {
+    if aBool == false {
+        x, exists := os.LookupEnv("A_BOOL")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: A_BOOL")
+        }
+        y, err := strconv.ParseBool(x)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to bool: A_BOOL")
+        }
+        aBool = y
+    }
+    return aBool
+}
+
+var anError error
+
+func AnError() error {
+    if anError == nil {
+        x, exists := os.LookupEnv("AN_ERROR")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: AN_ERROR")
+        }
+        anError = errors.New(x)
+    }
+    return anError
+}
+
+var anInt16 int16
+
+func AnInt16() int16 {
+    if anInt16 == 0 {
+        x, exists := os.LookupEnv("AN_INT_16")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: AN_INT_16")
+        }
+        y, err := strconv.ParseInt(x, 10, 16)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to int16: AN_INT_16")
+        }
+        anInt16 = int16(y)
+    }
+    return anInt16
+}
+
+var anInt32 int32
+
+func AnInt32() int32 {
+    if anInt32 == 0 {
+        x, exists := os.LookupEnv("AN_INT_32")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: AN_INT_32")
+        }
+        y, err := strconv.ParseInt(x, 10, 32)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to int32: AN_INT_32")
+        }
+        anInt32 = int32(y)
+    }
+    return anInt32
+}
+
 var aString string
 
 func AString() string {
@@ -300,36 +168,87 @@ func AUint8() uint8 {
     return aUint8
 }
 
-var aRune rune
+var aUint16 uint16
 
-func ARune() rune {
-    if aRune == 0 {
-        x, exists := os.LookupEnv("A_RUNE")
+func AUint16() uint16 {
+    if aUint16 == 0 {
+        x, exists := os.LookupEnv("A_UINT_16")
         if !exists {
-            log.Fatalf("Failed to find environment variable: A_RUNE")
+            log.Fatalf("Failed to find environment variable: A_UINT_16")
         }
-        aRune = rune([]byte(x)[0])
+        y, err := strconv.ParseUint(x, 10, 16)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to uint16: A_UINT_16")
+        }
+        aUint16 = uint16(y)
     }
-    return aRune
+    return aUint16
 }
 
-    var aDuration time.Duration
+var aUint uint
 
-    func ADuration() time.Duration {
-        if aDuration == 0 {
-            x, exists := os.LookupEnv("A_DURATION")
-            if !exists {
-                log.Fatalf("Failed to find environment variable: A_DURATION")
-            }
-            y, err := time.ParseDuration(x)
-            if err != nil {
-                log.Fatalf("Failed to convert environment variable to time.Duration: A_DURATION")
-            }
-            aDuration = y
+func AUint() uint {
+    if aUint == 0 {
+        x, exists := os.LookupEnv("A_UINT")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: A_UINT")
         }
-        return aDuration
+        y, err := strconv.ParseUint(x, 10, 64)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to uint: A_UINT")
+        }
+        aUint = uint(y)
     }
-    
+    return aUint
+}
+
+var aByteSlice []byte
+
+func AByteSlice() []byte {
+    if aByteSlice == nil {
+        x, exists := os.LookupEnv("A_BYTE_SLICE")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: A_BYTE_SLICE")
+        }
+        aByteSlice = []byte(x)
+    }
+    return aByteSlice
+}
+
+var aFloat64 float64
+
+func AFloat64() float64 {
+    if aFloat64 == 0 {
+        x, exists := os.LookupEnv("A_FLOAT_64")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: A_FLOAT_64")
+        }
+        y, err := strconv.ParseFloat(x, 64)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to float64: A_FLOAT_64")
+        }
+        aFloat64 = float64(y)
+    }
+    return aFloat64
+}
+
+var aDuration time.Duration
+
+func ADuration() time.Duration {
+    if aDuration == 0 {
+        x, exists := os.LookupEnv("A_DURATION")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: A_DURATION")
+        }
+        y, err := time.ParseDuration(x)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to time.Duration: A_DURATION")
+        }
+        aDuration = y
+    }
+    return aDuration
+}
+
 var anInt64 int64
 
 func AnInt64() int64 {
@@ -345,4 +264,85 @@ func AnInt64() int64 {
         anInt64 = int64(y)
     }
     return anInt64
+}
+
+var anInt int
+
+func AnInt() int {
+    if anInt == 0 {
+        x, exists := os.LookupEnv("AN_INT")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: AN_INT")
+        }
+        y, err := strconv.Atoi(x)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to int: AN_INT")
+        }
+        anInt = y
+    }
+    return anInt
+}
+
+var aByte byte
+
+func AByte() byte {
+    if aByte == 0 {
+        x, exists := os.LookupEnv("A_BYTE")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: A_BYTE")
+        }
+        aByte = []byte(x)[0]
+    }
+    return aByte
+}
+
+var aComplex64 complex64
+
+func AComplex64() complex64 {
+    if aComplex64 == 0 {
+        x, exists := os.LookupEnv("A_COMPLEX_64")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: A_COMPLEX_64")
+        }
+        y, err := strconv.ParseComplex(x, 64)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to complex64: A_COMPLEX_64")
+        }
+        aComplex64 = complex64(y)
+    }
+    return aComplex64
+}
+
+var anInt8 int8
+
+func AnInt8() int8 {
+    if anInt8 == 0 {
+        x, exists := os.LookupEnv("AN_INT_8")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: AN_INT_8")
+        }
+        y, err := strconv.ParseInt(x, 10, 8)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to int8: AN_INT_8")
+        }
+        anInt8 = int8(y)
+    }
+    return anInt8
+}
+
+var aUint64 uint64
+
+func AUint64() uint64 {
+    if aUint64 == 0 {
+        x, exists := os.LookupEnv("A_UINT_64")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: A_UINT_64")
+        }
+        y, err := strconv.ParseUint(x, 10, 64)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to uint64: A_UINT_64")
+        }
+        aUint64 = uint64(y)
+    }
+    return aUint64
 }

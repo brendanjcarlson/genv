@@ -11,7 +11,9 @@ import (
 	"github.com/brendanjcarlson/genv/parser"
 )
 
-func Generate(args *parser.Args, kvs map[string]*parser.KeyValue) (err error) {
+func Generate(args *parser.Args) {
+	kvs := parser.ParseFiles(args)
+
 	vars := make(map[string]string)
 	for _, v := range kvs {
 		vars[v.Key] = expand(v.Value, vars)
@@ -21,21 +23,21 @@ func Generate(args *parser.Args, kvs map[string]*parser.KeyValue) (err error) {
 	parts := strings.Split(args.Output, "/")
 	path := strings.Join(parts[:len(parts)-1], "/")
 
-	err = os.MkdirAll(path, os.ModePerm)
+	err := os.MkdirAll(path, os.ModePerm)
 	if err != nil {
-		return
+		log.Fatalf("Failed to create directory: %s", err)
 	}
 
 	if _, err = os.Stat(args.Output); err == nil {
 		err = os.Remove(args.Output)
 		if err != nil {
-			return
+			log.Fatalf("Failed to remove old file: %s", err)
 		}
 	}
 
 	f, err := os.Create(args.Output)
 	if err != nil {
-		return
+		log.Fatalf("Failed to create file: %s", err)
 	}
 	defer f.Close()
 
@@ -48,17 +50,14 @@ func Generate(args *parser.Args, kvs map[string]*parser.KeyValue) (err error) {
 	}
 
 	if _, err = f.Write(w.Bytes()); err != nil {
-		return
+		log.Fatalf("Failed to write to file: %s", err)
 	}
-
-	return nil
 }
 
 func expand(s string, vars map[string]string) string {
-	s = os.Expand(s, func(key string) string {
+	return os.Expand(s, func(key string) string {
 		return vars[key]
 	})
-	return s
 }
 
 func code(w io.Writer, msg string) {
@@ -582,21 +581,21 @@ func ` + f + `() ` + t + ` {
 
 func prepTimeDurationVar(k, v, f, t string) string {
 	return `
-    var ` + v + ` ` + t + `
+var ` + v + ` ` + t + `
 
-    func ` + f + `() ` + t + ` {
-        if ` + v + ` == 0 {
-            x, exists := os.LookupEnv("` + k + `")
-            if !exists {
-                log.Fatalf("Failed to find environment variable: ` + k + `")
-            }
-            y, err := time.ParseDuration(x)
-            if err != nil {
-                log.Fatalf("Failed to convert environment variable to time.Duration: ` + k + `")
-            }
-            ` + v + ` = y
+func ` + f + `() ` + t + ` {
+    if ` + v + ` == 0 {
+        x, exists := os.LookupEnv("` + k + `")
+        if !exists {
+            log.Fatalf("Failed to find environment variable: ` + k + `")
         }
-        return ` + v + `
+        y, err := time.ParseDuration(x)
+        if err != nil {
+            log.Fatalf("Failed to convert environment variable to time.Duration: ` + k + `")
+        }
+        ` + v + ` = y
     }
-    `
+    return ` + v + `
+}
+`
 }
