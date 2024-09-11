@@ -11,7 +11,7 @@ import (
 
 var ErrNotEnvExt = errors.New("file does not have \".env\" extension")
 
-// Load reads *.env files and loads the variables into the current process.
+// Load reads env files and loads the variables into the current process.
 //
 // Call this function as close to the start of your main function as possible.
 //
@@ -51,9 +51,6 @@ func load(filenames ...string) error {
 	}
 
 	for _, filename := range filenames {
-		if !strings.HasSuffix(filename, ".env") {
-			return fmt.Errorf("genv: %w", ErrNotEnvExt)
-		}
 		if err := loadFile(filename, vars); err != nil {
 			return err
 		}
