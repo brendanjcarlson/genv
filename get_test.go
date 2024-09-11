@@ -1,15 +1,18 @@
 package genv
 
 import (
+	"errors"
 	"os"
 	"testing"
 )
 
 func Test_Get(t *testing.T) {
 	t.Run("invalid key", func(t *testing.T) {
-		_, err := Get[string]("INVALID_KEY")
-		if err == nil {
-			t.Errorf("expected non nil err")
+		var want error = ErrNotSet
+
+		_, got := Get[string]("INVALID_KEY")
+		if !errors.Is(got, want) {
+			t.Errorf("\nwant %v\ngot %v\n", want, got)
 		}
 	})
 
@@ -22,10 +25,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[string](key)
 		if err != nil {
-			t.Errorf("%v\n", err)
+			t.Errorf("\nshould not error\ngot %v\n", err)
 		}
 		if want != got {
-			t.Errorf("want %s\ngot %s", want, got)
+			t.Errorf("\nwant %s\ngot %s\n", want, got)
 		}
 	})
 
@@ -39,10 +42,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[bool](key)
 		if err != nil {
-			t.Errorf("%v\n", err)
+			t.Errorf("\nshould not error\ngot %v\n", err)
 		}
 		if want != got {
-			t.Errorf("want %t\ngot %t", want, got)
+			t.Errorf("\nwant %t\ngot %t\n", want, got)
 		}
 	})
 
@@ -56,10 +59,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[int](key)
 		if err != nil {
-			t.Errorf("%v\n", err)
+			t.Errorf("\nshould not error\ngot %v\n", err)
 		}
 		if want != got {
-			t.Errorf("want %d\ngot %d", want, got)
+			t.Errorf("\nwant %d\ngot %d\n", want, got)
 		}
 	})
 
@@ -73,10 +76,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[float64](key)
 		if err != nil {
-			t.Errorf("%v\n", err)
+			t.Errorf("\nshould not error\ngot %v\n", err)
 		}
 		if want != got {
-			t.Errorf("want %f\ngot %f", want, got)
+			t.Errorf("\nwant %f\ngot %f\n", want, got)
 		}
 	})
 }
@@ -90,14 +93,14 @@ func Test_GetOrDefault(t *testing.T) {
 	t.Run("returns value", func(t *testing.T) {
 		got := GetOrDefault("TEST_GET_OR_DEFAULT", "fallback")
 		if "test_get_or_default" != got {
-			t.Errorf("want %s\ngot %s", "test_get_or_default", got)
+			t.Errorf("\nwant %s\ngot %s\n", "test_get_or_default", got)
 		}
 	})
 
 	t.Run("returns fallback", func(t *testing.T) {
 		got := GetOrDefault("INVALID_KEY", "fallback")
 		if "fallback" != got {
-			t.Errorf("want %s\ngot %s", "fallback", got)
+			t.Errorf("\nwant %s\ngot %s\n", "fallback", got)
 		}
 	})
 }
@@ -111,19 +114,19 @@ func Test_GetOrPanic(t *testing.T) {
 	t.Run("does not panic", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r != nil {
-				t.Errorf("should not have panicked")
+				t.Errorf("\nshould not have panicked\n")
 			}
 		}()
 		got := GetOrPanic[string]("TEST_GET_OR_PANIC")
 		if "test_get_or_panic" != got {
-			t.Errorf("want %s\ngot %s", "test_get_or_panic", got)
+			t.Errorf("\nwant %s\ngot %s\n", "test_get_or_panic", got)
 		}
 	})
 
 	t.Run("panics", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r == nil {
-				t.Errorf("should have panicked")
+				t.Errorf("\nshould have panicked\n")
 			}
 		}()
 		GetOrPanic[string]("INVALID KEY")
@@ -165,21 +168,33 @@ func Test_GetStruct(t *testing.T) {
 		Float64Value float64 `genv:"TEST_GET_STRUCT_FLOAT64_KEY"`
 	}
 
-	wantCfg := Config{
-		StringValue:  stringWant,
-		BoolValue:    boolWant,
-		IntValue:     intWant,
-		Float64Value: float64Want,
-	}
+	t.Run("ok", func(t *testing.T) {
+		wantCfg := Config{
+			StringValue:  stringWant,
+			BoolValue:    boolWant,
+			IntValue:     intWant,
+			Float64Value: float64Want,
+		}
 
-	var gotCfg Config
-	err := GetStruct(&gotCfg)
-	if err != nil {
-		t.Errorf("%v\n", err)
-	}
-	if gotCfg != wantCfg {
-		t.Errorf("want %+v\ngot %+v", wantCfg, gotCfg)
-	}
+		var gotCfg Config
+		err := GetStruct(&gotCfg)
+		if err != nil {
+			t.Errorf("\nshould not error\ngot %v\n", err)
+		}
+		if gotCfg != wantCfg {
+			t.Errorf("\nwant %+v\ngot %+v\n", wantCfg, gotCfg)
+		}
+	})
+
+	t.Run("not a struct pointer", func(t *testing.T) {
+		var notAStruct string
+		var want error = ErrNotPointerToStruct
+
+		got := GetStruct(&notAStruct)
+		if !errors.Is(got, want) {
+			t.Errorf("\nwant %v\ngot %v\n", want, got)
+		}
+	})
 }
 
 func Test_cast(t *testing.T) {
@@ -189,10 +204,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[string]("", input)
 		if err != nil {
-			t.Errorf("%v\n", err)
+			t.Errorf("\nshould not error\ngot %v\n", err)
 		}
 		if want != got {
-			t.Errorf("want %s\ngot %s", want, got)
+			t.Errorf("\nwant %s\ngot %s\n", want, got)
 		}
 	})
 
@@ -202,19 +217,20 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[bool]("", input)
 		if err != nil {
-			t.Errorf("%v\n", err)
+			t.Errorf("\nshould not error\ngot %v\n", err)
 		}
 		if want != got {
-			t.Errorf("want %v\ngot %v", want, got)
+			t.Errorf("\nwant %v\ngot %v\n", want, got)
 		}
 	})
 
 	t.Run("not ok bool", func(t *testing.T) {
 		var input string = "not a bool"
+		var want error = ErrCannotCast
 
-		_, err := cast[bool]("", input)
-		if err == nil {
-			t.Errorf("expected err, got nil\n")
+		_, got := cast[bool]("", input)
+		if !errors.Is(got, want) {
+			t.Errorf("\nwant %v\ngot %v\n", want, got)
 		}
 	})
 
@@ -224,19 +240,20 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[int]("", input)
 		if err != nil {
-			t.Errorf("%v\n", err)
+			t.Errorf("\nshould not error\ngot %v\n", err)
 		}
 		if want != got {
-			t.Errorf("want %v\ngot %v", want, got)
+			t.Errorf("\nwant %v\ngot %v\n", want, got)
 		}
 	})
 
 	t.Run("not ok int", func(t *testing.T) {
 		var input string = "not an int"
+		var want error = ErrCannotCast
 
-		_, err := cast[int]("", input)
-		if err == nil {
-			t.Errorf("expected err, got nil\n")
+		_, got := cast[int]("", input)
+		if !errors.Is(got, want) {
+			t.Errorf("\nwant %v\ngot %v\n", want, got)
 		}
 	})
 
@@ -246,19 +263,20 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[float64]("", input)
 		if err != nil {
-			t.Errorf("%v\n", err)
+			t.Errorf("\nshould not error\ngot %v\n", err)
 		}
 		if want != got {
-			t.Errorf("want %v\ngot %v", want, got)
+			t.Errorf("\nwant %v\ngot %v\n", want, got)
 		}
 	})
 
 	t.Run("not ok float", func(t *testing.T) {
 		var input string = "not an float64"
+		var want error = ErrCannotCast
 
-		_, err := cast[float64]("", input)
-		if err == nil {
-			t.Errorf("expected err, got nil\n")
+		_, got := cast[float64]("", input)
+		if !errors.Is(got, want) {
+			t.Errorf("\nwant %v\ngot %v\n", want, got)
 		}
 	})
 }

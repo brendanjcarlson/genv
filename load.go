@@ -8,11 +8,6 @@ import (
 	"strings"
 )
 
-type entry struct {
-	value string
-	typ   string
-}
-
 func Load(filenames ...string) error {
 	if err := load(filenames...); err != nil {
 		return err
@@ -24,6 +19,11 @@ func LoadOrPanic(filenames ...string) {
 	if err := load(filenames...); err != nil {
 		panic(err)
 	}
+}
+
+type entry struct {
+	value string
+	typ   string
 }
 
 func load(filenames ...string) error {
@@ -74,7 +74,7 @@ func loadFile(filename string, vars map[string]*entry) error {
 			continue
 		}
 
-		// TODO: handle type annotations after value e.g. INT_KEY=16 #int
+		// TODO: handle type annotations after value e.g. INT_KEY=16 #int for code gen
 		// TODO: handle escaped characters
 		key, rest, found := strings.Cut(line, "=")
 		if !found {

@@ -20,7 +20,7 @@ var (
 func Get[T any](key string) (value T, err error) {
 	raw, ok := os.LookupEnv(key)
 	if !ok {
-		return value, fmt.Errorf("genv: environment variable not set: %q", key)
+		return value, fmt.Errorf("genv: %w: %q", ErrNotSet, key)
 	}
 
 	return cast[T](key, raw)

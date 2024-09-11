@@ -16,30 +16,30 @@ func Test_Load_SingleFile(t *testing.T) {
 	}
 
 	if err := Load("./testdata/.env"); err != nil {
-		t.Fatalf("%v\n", err)
+		t.Errorf("\n%v\n", err)
 	}
 
 	for k, v := range want {
 		got := os.Getenv(k)
 		if got != v {
-			t.Fatalf("want %s=%s, got %s=%s", k, v, k, got)
+			t.Errorf("\nwant %s=%s, got %s=%s\n", k, v, k, got)
 		}
 	}
 }
 
 func Test_Load_MultipleFiles(t *testing.T) {
 	if err := Load("./testdata/multi/one.env", "./testdata/multi/two.env"); err != nil {
-		t.Fatalf("%v\n", err)
+		t.Errorf("\n%v\n", err)
 	}
 
 	_, ok := os.LookupEnv("FROM_ONE")
 	if !ok {
-		t.Fatalf("%s was not set\n", "FROM_ONE")
+		t.Errorf("\n%s was not set\n", "FROM_ONE")
 	}
 
 	_, ok = os.LookupEnv("FROM_TWO")
 	if !ok {
-		t.Fatalf("%s was not set\n", "FROM_TWO")
+		t.Errorf("\n%s was not set\n", "FROM_TWO")
 	}
 }
 
@@ -47,7 +47,7 @@ func Test_LoadOrPanic(t *testing.T) {
 	t.Run("does not panic", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r != nil {
-				t.Errorf("should not have panicked")
+				t.Errorf("\nshould not have panicked\n")
 			}
 		}()
 
@@ -57,7 +57,7 @@ func Test_LoadOrPanic(t *testing.T) {
 	t.Run("panics", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r == nil {
-				t.Errorf("should have panicked")
+				t.Errorf("\nshould have panicked\n")
 			}
 		}()
 
@@ -80,12 +80,12 @@ func Test_expand(t *testing.T) {
 
 	got, ok := vars["TEXT_EXPAND_TWO"]
 	if !ok {
-		t.Errorf("map should have key %q", "TEST_EXPAND_TWO")
+		t.Errorf("\nmap should have key %q\n", "TEST_EXPAND_TWO")
 	}
 
 	gotValue := got.value
 
 	if wantValue != gotValue {
-		t.Errorf("want %s\ngot %s", wantValue, gotValue)
+		t.Errorf("\nwant %s\ngot %s\n", wantValue, gotValue)
 	}
 }
