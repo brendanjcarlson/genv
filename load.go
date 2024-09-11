@@ -20,6 +20,8 @@ var ErrNotEnvExt = errors.New("file does not have \".env\" extension")
 // Order matters.
 //
 // Variables set previously will be OVERRIDDEN if set in a subsequent file.
+//
+// See package 'autoload' to make your life even easier.
 func Load(filenames ...string) error {
 	if err := load(filenames...); err != nil {
 		return err
