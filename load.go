@@ -3,7 +3,6 @@ package genv
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"regexp"
 	"strings"
@@ -19,6 +18,12 @@ func Load(filenames ...string) error {
 		return err
 	}
 	return nil
+}
+
+func LoadOrPanic(filenames ...string) {
+	if err := load(filenames...); err != nil {
+		panic(err)
+	}
 }
 
 func load(filenames ...string) error {
@@ -52,15 +57,13 @@ func loadFile(filename string, vars map[string]*entry) error {
 	if err != nil {
 		return fmt.Errorf("genv: %w", err)
 	}
-	defer func() {
-		if err := f.Close(); err != nil {
-			log.Fatalf("genv: close: %v", err)
-		}
-	}()
 
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		if err = scanner.Err(); err != nil {
+			if err := f.Close(); err != nil {
+				return fmt.Errorf("genv: close: %w", err)
+			}
 			return fmt.Errorf("genv: parse: %w", err)
 		}
 		line := strings.TrimSpace(scanner.Text())
@@ -72,7 +75,7 @@ func loadFile(filename string, vars map[string]*entry) error {
 		}
 
 		// TODO: handle type annotations after value e.g. INT_KEY=16 #int
-		// TODO: handle escaped values
+		// TODO: handle escaped characters
 		key, rest, found := strings.Cut(line, "=")
 		if !found {
 			continue
@@ -93,6 +96,9 @@ func loadFile(filename string, vars map[string]*entry) error {
 		vars[key] = &entry{value, typ}
 	}
 
+	if err := f.Close(); err != nil {
+		return fmt.Errorf("genv: close: %w", err)
+	}
 	return nil
 }
 
