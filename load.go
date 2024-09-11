@@ -2,14 +2,11 @@ package genv
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"regexp"
 	"strings"
 )
-
-var ErrNotEnvExt = errors.New("file does not have \".env\" extension")
 
 // Load reads env files and loads the variables into the current process.
 //
