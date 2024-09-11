@@ -86,6 +86,9 @@ func loadFile(filename string, vars map[string]*entry) error {
 
 		key = strings.TrimSpace(key)
 		value = strings.TrimSpace(value)
+		if value[0] == '"' && value[len(value)-1] == '"' {
+			value = strings.Trim(value, "\"")
+		}
 		typ = strings.TrimSpace(typ)
 
 		vars[key] = &entry{value, typ}

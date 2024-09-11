@@ -9,9 +9,11 @@ import (
 
 func Test_Load_SingleFile(t *testing.T) {
 	want := map[string]string{
-		"KEY":      "value",
-		"INT_KEY":  "16",
-		"EXPANDED": "\"foo 16\"",
+		"KEY":          "value",
+		"INT_KEY":      "16",
+		"BOOL_KEY":     "true",
+		"QUOTED_KEY":   "string",
+		"EXPANDED_KEY": "foo 16",
 	}
 
 	if err := Load("./testdata/.env"); err != nil {
@@ -23,6 +25,22 @@ func Test_Load_SingleFile(t *testing.T) {
 		if got != v {
 			t.Fatalf("want %s=%s, got %s=%s", k, v, k, got)
 		}
+	}
+}
+
+func Test_Load_MultipleFiles(t *testing.T) {
+	if err := Load("./testdata/multi/one.env", "./testdata/multi/two.env"); err != nil {
+		t.Fatalf("%v\n", err)
+	}
+
+	_, ok := os.LookupEnv("FROM_ONE")
+	if !ok {
+		t.Fatalf("%s was not set\n", "FROM_ONE")
+	}
+
+	_, ok = os.LookupEnv("FROM_TWO")
+	if !ok {
+		t.Fatalf("%s was not set\n", "FROM_TWO")
 	}
 }
 
@@ -66,9 +84,11 @@ func Test_Get(t *testing.T) {
 
 func Test_GetStruct(t *testing.T) {
 	type Config struct {
-		StringKey string `genv:"KEY"`
-		IntKey    int    `genv:"INT_KEY"`
-		BoolKey   bool   `genv:"BOOL_KEY"`
+		StringKey   string `genv:"KEY"`
+		IntKey      int    `genv:"INT_KEY"`
+		ExpandedKey string `genv:"EXPANDED_KEY"`
+		BoolKey     bool   `genv:"BOOL_KEY"`
+		QuotedKey   string `genv:"QUOTED_KEY"`
 	}
 
 	var cfg Config
