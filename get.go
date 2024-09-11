@@ -17,6 +17,30 @@ var (
 	ErrCannotCast         = errors.New("environment variable cannot be cast to target type")
 )
 
+// Get retrieves an environment variable from the current process.
+//
+// Returns the value cast to the given type parameter or an error if
+// the variable is not set or cannot be cast to the given type.
+//
+// All simple types are supported.
+//
+// See GetStruct for loading variables into a struct.
+//
+// Use:
+//
+//	secret, err := Get[string]("SECRET_KEY")
+//	if errors.Is(err, ErrNotSet) {
+//	   ...
+//	} else if errors.Is(err, ErrCannotCast) {
+//	   ...
+//	}
+//
+//	timeoutMillis, err := Get[int]("TIMEOUT_MILLIS")
+//	if errors.Is(err, ErrNotSet) {
+//	   ...
+//	} else if errors.Is(err, ErrCannotCast) {
+//	   ...
+//	}
 func Get[T any](key string) (value T, err error) {
 	raw, ok := os.LookupEnv(key)
 	if !ok {
@@ -26,6 +50,15 @@ func Get[T any](key string) (value T, err error) {
 	return cast[T](key, raw)
 }
 
+// GetOrDefault retrieves an environment variable from the current process.
+//
+// Returns the value cast to the given type parameter or the fallback value
+// if the variable is not set or cannot be cast to the given type.
+//
+// Use:
+//
+//	secret := GetOrDefault[string]("SECRET_KEY", "super-secret-key")
+//	timeoutMillis := GetOrDefault[int]("TIMEOUT_MILLIS", 500)
 func GetOrDefault[T any](key string, fallback T) (value T) {
 	value, err := Get[T](key)
 	if err != nil {
@@ -34,6 +67,14 @@ func GetOrDefault[T any](key string, fallback T) (value T) {
 	return value
 }
 
+// GetOrPanic retrieves an environment variable from the current process.
+//
+// Returns the value cast to the given type parameter or panics
+// if the variable is not set or cannot be cast to the given type.
+//
+// Use:
+//
+//	secret := GetOrPanic[string]("SECRET_KEY")
 func GetOrPanic[T any](key string) (value T) {
 	value, err := Get[T](key)
 	if err != nil {
@@ -42,6 +83,16 @@ func GetOrPanic[T any](key string) (value T) {
 	return value
 }
 
+// GetStruct retrieves an environment variable from the current process
+// and loads them into a struct.
+//
+// Attemps to cast and assign values to struct fields annotated by the tag:
+//
+// `genv:"KEY_NAME"`
+//
+// Returns an error if the variable is not set, the argument is not a struct,
+// the tagged field is not exported, or if the variable cannot be cast to the given type.
+//
 // Use:
 //
 //	type Config struct {
@@ -51,7 +102,6 @@ func GetOrPanic[T any](key string) (value T) {
 //	}
 //
 //	var cfg Config
-//
 //	if err := GetStruct(&cfg); err != nil {
 //	   ...
 //	}
