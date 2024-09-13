@@ -149,6 +149,66 @@ func GetStruct[T any](value *T) (err error) {
 				return err
 			}
 			fieldVal.SetInt(int64(i))
+		case reflect.Int8:
+			i, err := Get[int8](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetInt(int64(i))
+		case reflect.Int16:
+			i, err := Get[int16](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetInt(int64(i))
+		case reflect.Int32:
+			i, err := Get[int32](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetInt(int64(i))
+		case reflect.Int64:
+			i, err := Get[int64](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetInt(int64(i))
+		case reflect.Uint:
+			i, err := Get[uint](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetUint(uint64(i))
+		case reflect.Uint8:
+			i, err := Get[uint8](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetUint(uint64(i))
+		case reflect.Uint16:
+			i, err := Get[uint16](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetUint(uint64(i))
+		case reflect.Uint32:
+			i, err := Get[uint32](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetUint(uint64(i))
+		case reflect.Uint64:
+			i, err := Get[uint64](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetUint(uint64(i))
+		case reflect.Float32:
+			f, err := Get[float32](key)
+			if err != nil {
+				return err
+			}
+			fieldVal.SetFloat(float64(f))
 		case reflect.Float64:
 			f, err := Get[float64](key)
 			if err != nil {
@@ -178,6 +238,66 @@ func cast[T any](key, raw string) (value T, err error) {
 			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
 		}
 		return any(i).(T), nil
+	case int8:
+		i, err := strconv.ParseInt(raw, 10, 8)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(int8(i)).(T), nil
+	case int16:
+		i, err := strconv.ParseInt(raw, 10, 16)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(int16(i)).(T), nil
+	case int32:
+		i, err := strconv.ParseInt(raw, 10, 32)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(int32(i)).(T), nil
+	case int64:
+		i, err := strconv.ParseInt(raw, 10, 64)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(int64(i)).(T), nil
+	case uint:
+		u, err := strconv.ParseUint(raw, 10, 64)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(uint(u)).(T), nil
+	case uint8:
+		u, err := strconv.ParseUint(raw, 10, 8)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(uint8(u)).(T), nil
+	case uint16:
+		u, err := strconv.ParseUint(raw, 10, 16)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(uint16(u)).(T), nil
+	case uint32:
+		u, err := strconv.ParseUint(raw, 10, 32)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(uint32(u)).(T), nil
+	case uint64:
+		u, err := strconv.ParseUint(raw, 10, 64)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(u).(T), nil
+	case float32:
+		f, err := strconv.ParseFloat(raw, 32)
+		if err != nil {
+			return value, fmt.Errorf("genv: %w: %q %T", ErrCannotCast, key, t)
+		}
+		return any(float32(f)).(T), nil
 	case float64:
 		f, err := strconv.ParseFloat(raw, 64)
 		if err != nil {
