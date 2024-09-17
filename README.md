@@ -37,7 +37,7 @@ func main() {
 
     timeoutSeconds, err := genv.Get[int]("TIMEOUT_SECONDS")
     if errors.Is(err, genv.ErrCannotCast) {
-        log.Fatalln(err)
+        log.Println(err)
     } else {
         timeoutSeconds = 5
     }
