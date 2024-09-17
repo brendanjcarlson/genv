@@ -2,7 +2,7 @@
 
 ## Ergonomic environment management
 
-genv is a Go package for loading and accessing environment variables. It simplifies the processes of lookup, casting, and populating configuration structs, using generics, struct tags, and reflection for mapping.
+<code>genv</code> is a Go package for loading and accessing environment variables. It simplifies the processes of lookup, casting, and populating configuration structs, using generics, struct tags, and reflection for mapping.
 
 ## Documentation
 
