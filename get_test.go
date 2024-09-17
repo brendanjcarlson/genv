@@ -435,6 +435,96 @@ func Test_GetStruct(t *testing.T) {
 	})
 }
 
+func Test_GetStruct_Nested(t *testing.T) {
+	var serverHostKey string = "SERVER_HOST"
+	var serverHostValue string = "127.0.0.1"
+	var serverHostWant string = "127.0.0.1"
+
+	var serverPortKey string = "SERVER_PORT"
+	var serverPortValue string = "8080"
+	var serverPortWant string = "8080"
+
+	var databaseHostKey string = "DATABASE_HOST"
+	var databaseHostValue string = "localhost"
+	var databaseHostWant string = "localhost"
+
+	var databasePortKey string = "DATABASE_PORT"
+	var databasePortValue string = "5342"
+	var databasePortWant string = "5342"
+
+	var databaseUserKey string = "DATABASE_USER"
+	var databaseUserValue string = "postgres"
+	var databaseUserWant string = "postgres"
+
+	var databasePasswordKey string = "DATABASE_PASSWORD"
+	var databasePasswordValue string = "password"
+	var databasePasswordWant string = "password"
+
+	var databaseDbnameKey string = "DATABASE_DBNAME"
+	var databaseDbnameValue string = "test"
+	var databaseDbnameWant string = "test"
+
+	os.Setenv(serverHostKey, serverHostValue)
+	os.Setenv(serverPortKey, serverPortValue)
+	os.Setenv(databaseHostKey, databaseHostValue)
+	os.Setenv(databasePortKey, databasePortValue)
+	os.Setenv(databaseUserKey, databaseUserValue)
+	os.Setenv(databasePasswordKey, databasePasswordValue)
+	os.Setenv(databaseDbnameKey, databaseDbnameValue)
+	t.Cleanup(func() {
+		os.Unsetenv(serverHostKey)
+		os.Unsetenv(serverPortKey)
+		os.Unsetenv(databaseHostKey)
+		os.Unsetenv(databasePortKey)
+		os.Unsetenv(databaseUserKey)
+		os.Unsetenv(databasePasswordKey)
+		os.Unsetenv(databaseDbnameKey)
+	})
+
+	type ServerConfig struct {
+		Host string `genv:"SERVER_HOST"`
+		Port string `genv:"SERVER_PORT"`
+	}
+
+	type DatabaseConfig struct {
+		Host     string `genv:"DATABASE_HOST"`
+		Port     string `genv:"DATABASE_PORT"`
+		User     string `genv:"DATABASE_USER"`
+		Password string `genv:"DATABASE_PASSWORD"`
+		Dbname   string `genv:"DATABASE_DBNAME"`
+	}
+
+	type AppConfig struct {
+		Server ServerConfig
+		DB     DatabaseConfig
+	}
+
+	t.Run("ok", func(t *testing.T) {
+		wantCfg := AppConfig{
+			Server: ServerConfig{
+				Host: serverHostWant,
+				Port: serverPortWant,
+			},
+			DB: DatabaseConfig{
+				Host:     databaseHostWant,
+				Port:     databasePortWant,
+				User:     databaseUserWant,
+				Password: databasePasswordWant,
+				Dbname:   databaseDbnameWant,
+			},
+		}
+
+		var gotCfg AppConfig
+		err := GetStruct(&gotCfg)
+		if err != nil {
+			t.Errorf("\nshould not error\ngot %v\n", err)
+		}
+		if gotCfg != wantCfg {
+			t.Errorf("\nwant %+v\ngot %+v\n", wantCfg, gotCfg)
+		}
+	})
+}
+
 func Test_cast(t *testing.T) {
 	t.Run("ok string", func(t *testing.T) {
 		var input string = "input"

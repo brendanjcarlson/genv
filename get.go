@@ -105,7 +105,7 @@ func GetOrPanic[T any](key string) (value T) {
 //	if err := GetStruct(&cfg); err != nil {
 //	   ...
 //	}
-func GetStruct[T any](value *T) (err error) {
+func GetStruct[T any](value T) (err error) {
 	typ := reflect.TypeOf(value)
 	if typ.Kind() != reflect.Ptr {
 		return fmt.Errorf("genv: %w", ErrNotPointer)
@@ -121,7 +121,7 @@ func GetStruct[T any](value *T) (err error) {
 	for i := range el.NumField() {
 		field := el.Field(i)
 		key := field.Tag.Get("genv")
-		if key == "" {
+		if key == "" && field.Type.Kind() != reflect.Struct {
 			continue
 		}
 
@@ -215,6 +215,13 @@ func GetStruct[T any](value *T) (err error) {
 				return err
 			}
 			fieldVal.SetFloat(f)
+		case reflect.Struct:
+			err := GetStruct(fieldVal.Addr().Interface())
+			if err != nil {
+				return err
+			}
+		default:
+			return fmt.Errorf("genv: %w: type %T, field %s", ErrUnsupportedType, fieldVal.Kind(), field.Name)
 		}
 	}
 
