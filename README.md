@@ -37,8 +37,8 @@ func main() {
 
     timeoutSeconds, err := genv.Get[int]("TIMEOUT_SECONDS")
     if errors.Is(err, genv.ErrCannotCast) {
-        log.Println(err)
-    } else {
+        log.Fatalln(err)
+    } else if errors.Is(err, genv.ErrNotSet) {
         timeoutSeconds = 5
     }
 
@@ -50,7 +50,7 @@ func main() {
     }
 
     var serverConfig ServerConfig
-    if err := genv.GetStruct(&serverConfig); err !=nil {
+    if err := genv.GetStruct(&serverConfig); err != nil {
         log.Fatalln(err)
     }
 }
