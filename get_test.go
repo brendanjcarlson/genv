@@ -436,31 +436,31 @@ func Test_GetStruct(t *testing.T) {
 }
 
 func Test_GetStruct_Nested(t *testing.T) {
-	var serverHostKey string = "SERVER_HOST"
+	var serverHostKey string = "TEST_GET_STRUCT_NESTED_SERVERHOST"
 	var serverHostValue string = "127.0.0.1"
 	var serverHostWant string = "127.0.0.1"
 
-	var serverPortKey string = "SERVER_PORT"
+	var serverPortKey string = "TEST_GET_STRUCT_NESTED_SERVERPORT"
 	var serverPortValue string = "8080"
 	var serverPortWant string = "8080"
 
-	var databaseHostKey string = "DATABASE_HOST"
+	var databaseHostKey string = "TEST_GET_STRUCT_NESTED_DATABASE_HOST"
 	var databaseHostValue string = "localhost"
 	var databaseHostWant string = "localhost"
 
-	var databasePortKey string = "DATABASE_PORT"
+	var databasePortKey string = "TEST_GET_STRUCT_NESTED_DATABASE_PORT"
 	var databasePortValue string = "5342"
 	var databasePortWant string = "5342"
 
-	var databaseUserKey string = "DATABASE_USER"
+	var databaseUserKey string = "TEST_GET_STRUCT_NESTED_DATABASE_USER"
 	var databaseUserValue string = "postgres"
 	var databaseUserWant string = "postgres"
 
-	var databasePasswordKey string = "DATABASE_PASSWORD"
+	var databasePasswordKey string = "TEST_GET_STRUCT_NESTED_DATABASE_PASSWORD"
 	var databasePasswordValue string = "password"
 	var databasePasswordWant string = "password"
 
-	var databaseDbnameKey string = "DATABASE_DBNAME"
+	var databaseDbnameKey string = "TEST_GET_STRUCT_NESTED_DATABASE_DBNAME"
 	var databaseDbnameValue string = "test"
 	var databaseDbnameWant string = "test"
 
@@ -482,16 +482,16 @@ func Test_GetStruct_Nested(t *testing.T) {
 	})
 
 	type ServerConfig struct {
-		Host string `genv:"SERVER_HOST"`
-		Port string `genv:"SERVER_PORT"`
+		Host string `genv:"TEST_GET_STRUCT_NESTED_SERVERHOST"`
+		Port string `genv:"TEST_GET_STRUCT_NESTED_SERVERPORT"`
 	}
 
 	type DatabaseConfig struct {
-		Host     string `genv:"DATABASE_HOST"`
-		Port     string `genv:"DATABASE_PORT"`
-		User     string `genv:"DATABASE_USER"`
-		Password string `genv:"DATABASE_PASSWORD"`
-		Dbname   string `genv:"DATABASE_DBNAME"`
+		Host     string `genv:"TEST_GET_STRUCT_NESTED_DATABASE_HOST"`
+		Port     string `genv:"TEST_GET_STRUCT_NESTED_DATABASE_PORT"`
+		User     string `genv:"TEST_GET_STRUCT_NESTED_DATABASE_USER"`
+		Password string `genv:"TEST_GET_STRUCT_NESTED_DATABASE_PASSWORD"`
+		Dbname   string `genv:"TEST_GET_STRUCT_NESTED_DATABASE_DBNAME"`
 	}
 
 	type AppConfig struct {
