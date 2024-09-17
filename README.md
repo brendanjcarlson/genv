@@ -4,10 +4,6 @@
 
 <code>genv</code> is a Go package for loading and accessing environment variables. It simplifies the processes of lookup, casting, and populating configuration structs, using generics, struct tags, and reflection for mapping.
 
-## Documentation
-
-See user documentation at <https://pkg.go.dev/github.com/brendanjcarlson/genv>
-
 ## Features
 
 - Load and cast environment variables through the use of generics.
@@ -70,6 +66,10 @@ The following types are currently supported, with support for slices coming:
 - <code>uint</code>, <code>uint8</code>, <code>uint16</code>, <code>uint32</code>, <code>uint64</code>
 - <code>float32</code>, <code>float64</code>
 - Structs with the listed types (including nested structs)
+
+## Documentation
+
+See user documentation at <https://pkg.go.dev/github.com/brendanjcarlson/genv>
 
 ## Contributing
 
