@@ -1,27 +1,27 @@
 # genv
 
-## ergonomic environment management
+## Ergonomic environment management
 
-genv is a Go package for loading environment variables. It simplifies the processes of lookup, casting, and populating configuration structs, using struct tags and reflection for mapping.
+genv is a Go package for loading and accessing environment variables. It simplifies the processes of lookup, casting, and populating configuration structs, using generics, struct tags, and reflection for mapping.
 
-### Documentation
+## Documentation
 
 See user documentation at <https://pkg.go.dev/github.com/brendanjcarlson/genv>
 
-### Features
+## Features
 
 - Load and cast environment variables through the use of generics.
 - Supports basic types like <code>string</code>, <code>bool</code>, <code>int</code>, <code>float64</code>, etc.
 - Load directly into a struct, including nested structs for more complex configurations.
 - Autoload (.env only) via import _ "github.com/brendanjcarlson/genv/autoload"
 
-### Installation
+## Installation
 
 ```bash
 go get -u github.com/brendanjcarlson/genv
 ```
 
-### Usage
+## Usage
 
 ```go
 package main
@@ -60,7 +60,7 @@ func main() {
 }
 ```
 
-### Supported Types
+## Supported Types
 
 The following types are currently supported, with support for slices coming:
 
@@ -71,6 +71,6 @@ The following types are currently supported, with support for slices coming:
 - <code>float32</code>, <code>float64</code>
 - Structs with the listed types (including nested structs)
 
-### Contributing
+## Contributing
 
 Contributions are welcome! Feel free to open an issue or submit a pull request on GitHub.
