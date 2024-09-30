@@ -46,7 +46,7 @@ func (p *Parser) Parse() (result *ParseResult, err error) {
 			}
 			ev, ok := p.result.Vars[match[1]]
 			if !ok {
-				return nil, errors.New("unset expand")
+				return nil, fmt.Errorf("genv: environment variable not set: %q", match[1])
 			}
 			v = strings.ReplaceAll(v, match[0], ev)
 			p.result.mu.Lock()
