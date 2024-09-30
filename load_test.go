@@ -5,87 +5,61 @@ import (
 	"testing"
 )
 
-func Test_Load_SingleFile(t *testing.T) {
+func TestLoadSingleFile(t *testing.T) {
 	want := map[string]string{
-		"KEY":          "value",
-		"BOOL_KEY":     "true",
-		"INT_KEY":      "16",
-		"FLOAT_KEY":    "12.34",
-		"QUOTED_KEY":   "string",
-		"EXPANDED_KEY": "foo 16",
+		"KEY":                "value",
+		"BOOL_KEY":           "true",
+		"INT_KEY":            "16",
+		"FLOAT_KEY":          "12.34",
+		"EXPANDED_KEY":       "foo value",
+		"MULTI_EXPANDED_KEY": "true 16 12.34",
 	}
 
 	if err := Load("./testdata/.env"); err != nil {
-		t.Errorf("\n%v\n", err)
+		t.Fatalf("%v", err)
 	}
 
 	for k, v := range want {
 		got := os.Getenv(k)
 		if got != v {
-			t.Errorf("\nwant %s=%s, got %s=%s\n", k, v, k, got)
+			t.Fatalf("want %s=%s, got %s=%s", k, v, k, got)
 		}
 	}
 }
 
-func Test_Load_MultipleFiles(t *testing.T) {
-	if err := Load("./testdata/multi/one.env", "./testdata/multi/two.env"); err != nil {
-		t.Errorf("\n%v\n", err)
+func TestLoadMultipleFiles(t *testing.T) {
+	if err := Load("./testdata/.env", "./testdata/.env2"); err != nil {
+		t.Fatalf("%v", err)
 	}
 
-	_, ok := os.LookupEnv("FROM_ONE")
+	_, ok := os.LookupEnv("KEY")
 	if !ok {
-		t.Errorf("\n%s was not set\n", "FROM_ONE")
+		t.Fatalf("%s was not set", "KEY")
 	}
 
-	_, ok = os.LookupEnv("FROM_TWO")
+	_, ok = os.LookupEnv("KEY2")
 	if !ok {
-		t.Errorf("\n%s was not set\n", "FROM_TWO")
+		t.Fatalf("%s was not set", "KEY2")
 	}
 }
 
-func Test_LoadOrPanic(t *testing.T) {
+func TestLoadOrPanic(t *testing.T) {
 	t.Run("does not panic", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r != nil {
-				t.Errorf("\nshould not have panicked\n")
+				t.Fatalf("should not have panicked")
 			}
 		}()
-
 		LoadOrPanic("./testdata/.env")
 	})
 
 	t.Run("panics", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r == nil {
-				t.Errorf("\nshould have panicked\n")
+				t.Fatalf("should have panicked")
 			}
 		}()
 
 		LoadOrPanic("not a real filepath")
 	})
-}
-
-func Test_expand(t *testing.T) {
-	vars := map[string]*entry{
-		"TEST_EXPAND_ONE": {"test_expand_one", "string"},
-		"TEXT_EXPAND_TWO": {"${TEST_EXPAND_ONE} test_expand_two", "string"},
-	}
-
-	var wantValue string = "test_expand_one test_expand_two"
-
-	err := expand(vars)
-	if err != nil {
-		t.Errorf("%v\n", err)
-	}
-
-	got, ok := vars["TEXT_EXPAND_TWO"]
-	if !ok {
-		t.Errorf("\nmap should have key %q\n", "TEST_EXPAND_TWO")
-	}
-
-	gotValue := got.value
-
-	if wantValue != gotValue {
-		t.Errorf("\nwant %s\ngot %s\n", wantValue, gotValue)
-	}
 }

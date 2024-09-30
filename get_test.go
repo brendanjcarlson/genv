@@ -6,13 +6,13 @@ import (
 	"testing"
 )
 
-func Test_Get(t *testing.T) {
+func TestGet(t *testing.T) {
 	t.Run("invalid key", func(t *testing.T) {
 		var want error = ErrNotSet
 
 		_, got := Get[string]("INVALID_KEY")
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -25,10 +25,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[string](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %s\ngot %s\n", want, got)
+			t.Fatalf("want %sgot %s", want, got)
 		}
 	})
 
@@ -42,10 +42,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[bool](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %t\ngot %t\n", want, got)
+			t.Fatalf("want %tgot %t", want, got)
 		}
 	})
 
@@ -59,10 +59,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[int](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -76,10 +76,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[int8](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -93,10 +93,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[int16](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -110,10 +110,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[int32](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -127,10 +127,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[int64](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -144,10 +144,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[uint](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -161,10 +161,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[uint8](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -178,10 +178,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[uint16](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -195,10 +195,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[uint32](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -212,10 +212,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[uint64](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %d\ngot %d\n", want, got)
+			t.Fatalf("want %dgot %d", want, got)
 		}
 	})
 
@@ -229,10 +229,10 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[float32](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %f\ngot %f\n", want, got)
+			t.Fatalf("want %fgot %f", want, got)
 		}
 	})
 
@@ -246,60 +246,60 @@ func Test_Get(t *testing.T) {
 
 		got, err := Get[float64](key)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %f\ngot %f\n", want, got)
+			t.Fatalf("want %fgot %f", want, got)
 		}
 	})
 }
 
-func Test_GetOrDefault(t *testing.T) {
+func TestGetOrDefault(t *testing.T) {
 	os.Setenv("TEST_GET_OR_DEFAULT", "test_get_or_default")
 	t.Cleanup(func() { os.Unsetenv("TEST_GET_OR_DEFAULT") })
 
 	t.Run("returns value", func(t *testing.T) {
 		got := GetOrDefault("TEST_GET_OR_DEFAULT", "fallback")
 		if "test_get_or_default" != got {
-			t.Errorf("\nwant %s\ngot %s\n", "test_get_or_default", got)
+			t.Fatalf("want %sgot %s", "test_get_or_default", got)
 		}
 	})
 
 	t.Run("returns fallback", func(t *testing.T) {
 		got := GetOrDefault("INVALID_KEY", "fallback")
 		if "fallback" != got {
-			t.Errorf("\nwant %s\ngot %s\n", "fallback", got)
+			t.Fatalf("want %sgot %s", "fallback", got)
 		}
 	})
 }
 
-func Test_GetOrPanic(t *testing.T) {
+func TestGetOrPanic(t *testing.T) {
 	os.Setenv("TEST_GET_OR_PANIC", "test_get_or_panic")
 	t.Cleanup(func() { os.Unsetenv("TEST_GET_OR_PANIC") })
 
 	t.Run("does not panic", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r != nil {
-				t.Errorf("\nshould not have panicked\n")
+				t.Fatalf("should not have panicked")
 			}
 		}()
 		got := GetOrPanic[string]("TEST_GET_OR_PANIC")
 		if "test_get_or_panic" != got {
-			t.Errorf("\nwant %s\ngot %s\n", "test_get_or_panic", got)
+			t.Fatalf("want %sgot %s", "test_get_or_panic", got)
 		}
 	})
 
 	t.Run("panics", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r == nil {
-				t.Errorf("\nshould have panicked\n")
+				t.Fatalf("should have panicked")
 			}
 		}()
 		GetOrPanic[string]("INVALID KEY")
 	})
 }
 
-func Test_GetStruct(t *testing.T) {
+func TestGetStruct(t *testing.T) {
 	var stringKey string = "TEST_GET_STRUCT_STRING_KEY"
 	var stringValue string = "string_value"
 	var stringWant string = "string_value"
@@ -417,10 +417,10 @@ func Test_GetStruct(t *testing.T) {
 		var gotCfg Config
 		err := GetStruct(&gotCfg)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if gotCfg != wantCfg {
-			t.Errorf("\nwant %+v\ngot %+v\n", wantCfg, gotCfg)
+			t.Fatalf("want %+vgot %+v", wantCfg, gotCfg)
 		}
 	})
 
@@ -430,12 +430,12 @@ func Test_GetStruct(t *testing.T) {
 
 		got := GetStruct(&notAStruct)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 }
 
-func Test_GetStruct_Nested(t *testing.T) {
+func TestGetStructNested(t *testing.T) {
 	var serverHostKey string = "TEST_GET_STRUCT_NESTED_SERVERHOST"
 	var serverHostValue string = "127.0.0.1"
 	var serverHostWant string = "127.0.0.1"
@@ -517,25 +517,25 @@ func Test_GetStruct_Nested(t *testing.T) {
 		var gotCfg AppConfig
 		err := GetStruct(&gotCfg)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if gotCfg != wantCfg {
-			t.Errorf("\nwant %+v\ngot %+v\n", wantCfg, gotCfg)
+			t.Fatalf("want %+vgot %+v", wantCfg, gotCfg)
 		}
 	})
 }
 
-func Test_cast(t *testing.T) {
+func TestCast(t *testing.T) {
 	t.Run("ok string", func(t *testing.T) {
 		var input string = "input"
 		var want string = "input"
 
 		got, err := cast[string]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %s\ngot %s\n", want, got)
+			t.Fatalf("want %sgot %s", want, got)
 		}
 	})
 
@@ -545,10 +545,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[bool]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -558,7 +558,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[bool]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -568,10 +568,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[int]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -581,7 +581,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[int]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -591,10 +591,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[int8]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -604,7 +604,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[int8]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -614,10 +614,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[int16]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -627,7 +627,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[int16]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -637,10 +637,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[int32]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -650,7 +650,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[int32]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -660,10 +660,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[int64]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -673,7 +673,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[int64]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -683,10 +683,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[uint]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -696,7 +696,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[uint]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -706,10 +706,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[uint8]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -719,7 +719,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[uint8]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -729,10 +729,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[uint16]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -742,7 +742,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[uint16]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -752,10 +752,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[uint32]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -765,7 +765,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[uint32]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -775,10 +775,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[uint64]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -788,7 +788,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[uint64]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -798,10 +798,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[float32]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -811,7 +811,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[float32]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -821,10 +821,10 @@ func Test_cast(t *testing.T) {
 
 		got, err := cast[float64]("", input)
 		if err != nil {
-			t.Errorf("\nshould not error\ngot %v\n", err)
+			t.Fatalf("should not errorgot %v", err)
 		}
 		if want != got {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 
@@ -834,7 +834,7 @@ func Test_cast(t *testing.T) {
 
 		_, got := cast[float64]("", input)
 		if !errors.Is(got, want) {
-			t.Errorf("\nwant %v\ngot %v\n", want, got)
+			t.Fatalf("want %vgot %v", want, got)
 		}
 	})
 }
